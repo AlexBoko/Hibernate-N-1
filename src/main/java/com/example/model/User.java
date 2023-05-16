@@ -1,28 +1,44 @@
 package com.example.model;
 
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private Long id;
-    private String name;
-    private String login;
-    private String password;
-    private Date createdDate;
-    private Date modifiedDate;
-    private List<String> roles;
-
-    public User() {
-
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
     }
 
-    public User(String name, String login, String password, List<String> roles) {
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
+    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String login;
+
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
-        this.roles = roles;
-        this.createdDate = new Date();
-        this.modifiedDate = new Date();
     }
 
     public Long getId() {
@@ -57,27 +73,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public List<String> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
