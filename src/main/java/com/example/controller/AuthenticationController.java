@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -32,7 +33,7 @@ public class AuthenticationController {
         Role role = roleRepository.findByName("ROLE_USER");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
-        user.setRoles(roles);
+        user.setRoles((List<Role>) roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return "User registered successfully!";

@@ -4,6 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+        <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/authentication</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">Wertyrwer</property>
@@ -11,9 +12,8 @@
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <mapping class="com.example.model.User"/>
-        <mapping class="com.example.model.Role"/>
+        <mapping class="org.example.model.User"/>
+        <mapping class="org.example.model.Role"/>
 
     </session-factory>
 </hibernate-configuration>
-
